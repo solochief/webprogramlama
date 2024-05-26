@@ -1,0 +1,23 @@
+{% extends 'hasta_anasayfa.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center">Hesap Bilgileri</h2>
+                    <p><strong>Kullanıcı Adı:</strong> {{ hasta_data.6 }}</p>
+                    <p><strong>Ad:</strong> {{ hasta_data.1 }}</p>
+                    <p><strong>Soyad:</strong> {{ hasta_data.2 }}</p>
+                    <p><strong>Doğum Tarihi:</strong> {{ hasta_data.3 }}</p>
+                    <p><strong>Cinsiyet:</strong> {{ hasta_data.4 }}</p>
+                    <p><strong>Telefon:</strong> {{ hasta_data.5 }}</p>
+                    <p><strong>Adres:</strong> {{ hasta_data.7 }}</p>
+                    <a href="/hasta-randevu">Hasta Randevu</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

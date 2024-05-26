@@ -1,0 +1,20 @@
+{% extends 'doktor_anasayfa.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center">Doktor Bilgileri</h2>
+                    <p><strong>Kullanıcı Adı:</strong> {{ doktor_data.5 }}</p>
+                    <p><strong>Ad:</strong> {{ doktor_data.1 }}</p>
+                    <p><strong>Soyad:</strong> {{ doktor_data.2 }}</p>
+                    <p><strong>Uzmanlık Alanı:</strong> {{ doktor_data.3 }}</p>
+                    <p><strong>Bulunduğu Hastane:</strong> {{ doktor_data.4 }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

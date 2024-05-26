@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doktor Ekle</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h2 class="mb-4">Doktor Ekle</h2>
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="ad">Ad</label>
+        <input type="text" class="form-control" id="ad" name="ad">
+      </div>
+      <div class="form-group">
+        <label for="soyad">Soyad</label>
+        <input type="text" class="form-control" id="soyad" name="soyad">
+      </div>
+      <div class="form-group">
+        <label for="uzmanlik">Uzmanlık Alanı</label>
+        <select class="form-control" id="uzmanlik" name="uzmanlik">
+          <option value="Kardiyoloji">Kardiyoloji</option>
+          <option value="Dermatoloji">Dermatoloji</option>
+          <option value="Nöroloji">Nöroloji</option>
+          <option value="Pediatri">Pediatri</option>
+          <option value="Ortopedi">Ortopedi</option>
+          <option value="Nefroloji">Nefroloji</option>
+          <option value="Üroloji">Üroloji</option>
+          <option value="Kulak Burun Boğaz">Kulak Burun Boğaz</option>
+          <option value="Psikiyatri">Psikiyatri</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="calistigi_hastane">Çalıştığı Hastane</label>
+        <input type="text" class="form-control" id="calistigi_hastane" name="calistigi_hastane">
+      </div>
+      <div class="form-group">
+        <label for="doktorun">Doktorun</label>
+        <input type="text" class="form-control" id="doktorun" name="doktorun">
+      </div>
+      <div class="form-group">
+        <label for="doktorsifre">Doktor Şifresi</label>
+        <input type="password" class="form-control" id="doktorsifre" name="doktorsifre">
+      </div>
+      <button type="submit" class="btn btn-primary">Ekle</button>
+    </form>
+  </div>
+
+  <!-- Bootstrap JS (jQuery dahil) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

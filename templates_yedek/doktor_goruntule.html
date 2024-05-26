@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tüm Hastalar</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Tüm Doktorlar</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Doktor ID</th>
+                    <th scope="col">Ad</th>
+                    <th scope="col">Soyad</th>
+                    <th scope="col">Uzmanlik Alani</th>
+                    <th scope="col">Calistigi Hastane</th>
+                    <th scope="col">Doktor Kullaniciadi</th>
+                    <th scope="col">Doktor Sifre</th>
+
+                    <th scope="col">İşlem</th> <!-- Yeni sütun eklendi -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for doktor in doktorlar %}
+                <tr>
+                    <td>{{ doktor.0 }}</td>
+                    <td>{{ doktor.1 }}</td>
+                    <td>{{ doktor.2 }}</td>
+                    <td>{{ doktor.3 }}</td>
+                    <td>{{ doktor.4 }}</td>
+                    <td>{{ doktor.5 }}</td>
+                    <td>{{ doktor.6 }}</td>
+
+                    <td>
+                        <form action="{% url 'doktor_sil' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="doktor_id" value="{{ doktor.0 }}">
+                            <button type="submit" class="btn btn-danger">Sil</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bootstrap JS (jQuery dahil) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

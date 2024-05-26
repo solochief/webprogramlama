@@ -1,0 +1,181 @@
+{% extends 'anasayfa.html' %}
+{% load static %}
+{% block title}
+{% block content %}
+
+<head>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 50px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+        }
+
+        #birthDate, #gender, #phone, #adress {
+            margin: 0px 0px 16px 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login form -->
+        <div id="login-form">
+            <h2 class="text-center mb-4">Giriş Yap</h2>
+            <form action="{% url 'login' %}" method="POST" >
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="loginUsername">Kullanıcı Adı</label>
+                    <input type="text" class="form-control" id="loginUsername" name="loginUsername" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Şifre</label>
+                    <input type="password" class="form-control" id="loginPassword" name="loginPassword" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="loginAccountType">Hesap Türü</label>
+                    <select class="form-control" id="loginAccountType" name="loginAccountType">
+                        <option value="Hasta">Hasta</option>
+                        <option value="Doktor">Doktor</option>
+                        <option value="Yonetici">Yönetici</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Giriş Yap</button>
+            </form>
+            <p class="text-center mt-3">Hesabınız yok mu? <a href="#" onclick="showRegisterForm()">Kayıt Ol</a></p>
+        </div>
+
+        <!-- Register form (hidden by default) -->
+        <div id="register-form" style="display: none;">
+            <h2 class="text-center mb-4">Kayıt Ol</h2>
+            <form action="{% url 'register' %}" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="accountType">Hesap Türü</label>
+                        <select class="form-control" id="accountType" name="accountType" onchange="showAdditionalFields(); showHospitalFields(); showDoctorFields();">
+                            <option value="Hasta">Hasta</option>
+                            <option value="Doktor">Doktor</option>
+                            <option value="Yonetici">Yonetici</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerName">İsim</label>
+                        <input type="text" class="form-control" id="registerName" name="registerName" placeholder="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerSurname">Soyisim</label>
+                        <input type="text" class="form-control" id="registerSurname" name="registerSurname" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerUsername">Kullanıcı Adı</label>
+                        <input type="text" class="form-control" id="registerUsername" name="registerUsername" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Şifre</label>
+                        <input type="password" class="form-control" id="registerPassword" name="registerPassword" placeholder="">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                <div class="form-group" id="additionalFields" style="display: block;">
+                    <label for="additionalFields">Doğum Tarihi</label>
+                    <input type="date" class="form-control" id="birthDate" name="birthDate">
+                    <label for="gender">Cinsiyet</label>
+                    <select class="form-control" id="gender" name="gender">
+                        <option value="Kadın">Kadın</option>
+                        <option value="Erkek">Erkek</option>
+                    </select>
+                    <label for="telNumber">Telefon Numarası</label>
+                    <input type="text" class="form-control" id="phone" name="phone" placeholder="Telefon Numarası">
+                    <label for="adress">Adres</label>
+                    <input type="text" class="form-control" id="address" name="address" placeholder="Adres">
+                </div>
+
+                <div class="form-group" id="doctorFields" style="display: none;">
+                    <label for="specialty">Uzmanlık Alanı</label>
+                    <select class="form-control" id="specialty" name="specialty">
+                        <option value="" disabled selected>Uzmanlık Alanı Seçin</option>
+                        <option value="Kardiyoloji">Kardiyoloji</option>
+                        <option value="Dermatoloji">Dermatoloji</option>
+                        <option value="Nöroloji">Nöroloji</option>
+                        <option value="Pediatri">Pediatri</option>
+                        <option value="Ortopedi">Ortopedi</option>
+                        <option value="Nefroloji">Nefroloji</option>
+                        <option value="Üroloji">Üroloji</option>
+                        <option value="Kulak Burun Boğaz">Kulak Burun Boğaz</option>
+                        <option value="Psikiyatri">Psikiyatri</option>
+                    </select>
+                </div>
+                <div class="form-group" id="hospitalFields" style="display: none;">
+                    <label for="hospital">Çalıştığı Hastane</label>
+                    <input type="text" class="form-control" id="hospital" name="hospital" placeholder="Çalıştığı Hastane">
+                </div>
+            </div>
+        </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Kayıt Ol</button>
+            </form>
+            <p class="text-center mt-3">Zaten bir hesabınız mı var? <a href="#" onclick="showLoginForm()">Giriş Yap</a></p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function showRegisterForm() {
+            document.getElementById("login-form").style.display = "none";
+            document.getElementById("register-form").style.display = "block";
+        }
+
+        function showLoginForm() {
+            document.getElementById("register-form").style.display = "none";
+            document.getElementById("login-form").style.display = "block";
+        }
+
+        function showAdditionalFields() {
+            var accountType = document.getElementById("accountType").value;
+            var additionalFields = document.getElementById("additionalFields");
+
+            if (accountType === "Hasta") {
+                additionalFields.style.display = "block";
+            } else {
+                additionalFields.style.display = "none";
+            }
+        }
+
+        function showDoctorFields() {
+            var accountType = document.getElementById("accountType").value;
+            var doctorFields = document.getElementById("doctorFields");
+
+            if (accountType === "Doktor") {
+                doctorFields.style.display = "block";
+            } else {
+                doctorFields.style.display = "none";
+            }
+        }
+
+        function showHospitalFields() {
+            var accountType = document.getElementById("accountType").value;
+            var hospitalFields = document.getElementById("hospitalFields");
+
+            if (accountType === "Doktor") {
+                hospitalFields.style.display = "block";
+            } else {
+                hospitalFields.style.display = "none";
+            }
+        }
+    </script>
+</body>
+{% endblock content %}

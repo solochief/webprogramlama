@@ -1,0 +1,38 @@
+{% extends 'admin_anasayfa.html' %}
+{% block content %}
+<div class="container">
+    <h1>Rapor Ekle</h1>
+    <form action="{% url 'admin_rapor_ekle' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="raporID" class="form-label">Rapor ID</label>
+            <input type="text" class="form-control" id="raporID" name="raporID">
+        </div>
+        <div class="mb-3">
+            <label for="raporTarihi" class="form-label">Rapor Tarihi</label>
+            <input type="date" class="form-control" id="raporTarihi" name="raporTarihi">
+        </div>
+        <div class="mb-3">
+            <label for="raporIcerigi" class="form-label">Rapor Icerigi</label>
+            <input type="text" class="form-control" id="raporIcerigi" name="raporIcerigi">
+        </div>
+        <div class="mb-3">
+            <label for="hastaID" class="form-label">Hasta ID</label>
+            <input type="text" class="form-control" id="hastaID" name="hastaID">
+        </div>
+        <div class="mb-3">
+            <label for="doktorID" class="form-label">Doktor ID</label>
+            <input type="text" class="form-control" id="doktorID" name="doktorID">
+        </div>
+        <div class="mb-3">
+            <label for="resim" class="form-label">Resim Ekle</label>
+            <input type="file" class="form-control" id="resim" name="resim">
+        </div>
+        <div class="mb-3">
+            <label for="jsonFile" class="form-label">JSON Dosyası Yükle</label>
+            <input type="file" class="form-control" id="jsonFile" name="jsonFile" accept=".json">
+        </div>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </form>
+</div>
+{% endblock %}

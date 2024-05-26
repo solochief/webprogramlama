@@ -1,0 +1,14 @@
+{% extends 'admin_anasayfa.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Rapor Güncelle</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="rapor_icerigi">Rapor İçeriği:</label>
+            <textarea class="form-control" id="rapor_icerigi" name="rapor_icerigi" rows="5">{{ rapor_icerigi }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Güncelle</button>
+    </form>
+</div>
+{% endblock %}

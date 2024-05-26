@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  {% load static %}
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <style type="text/css">
+    .bs-example {
+      margin: 0px;
+
+    }
+
+    .navbar-brand {
+      font-size: 15px;
+      font-family: 'Brush Script MT', cursive;
+      padding: 10px 10px;
+    }
+
+    .nav-item {
+      font-size: 15px;
+    }
+
+    .navbar-nav .nav-item {
+        padding: 10px 10px;
+
+    }
+
+    .navbar-nav .nav-link {
+        color: #333;
+        font-size: 16px;
+
+    }
+
+    .navbar-nav .nav-link:hover {
+        color: #007bff;
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar bg" style="background:#ff0000;">
+      <a href="/">
+        <img src="{% static "images/bannerRed.png" %}" width="70" height="70" class="d-inline-block align-top" alt="">
+      </a>
+      <a class="navbar-brand" href="/">
+        MEDICOY
+      </a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+        <div class="navbar-nav ml-auto">
+            <a href="/hakkimizda" class="nav-item nav-link">Hakkımızda</a>
+            <a href="/iletisim" class="nav-item nav-link">Görüşleriniz</a>
+          <img src="{% static "images/ataturkBanner.png" %}" alt="Admin" class="navbar-brand" style="width: 70px; height: auto; margin-left: 15px;">
+        </div>
+      </div>
+    </nav>
+  </div>
+  <br><br>
+  <br><br>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+
+</html>

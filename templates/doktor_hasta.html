@@ -1,0 +1,35 @@
+{% extends 'doktor_anasayfa.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Randevularım</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Tarih</th>
+                <th scope="col">Saat</th>
+                <th scope="col">Hasta Adı</th>
+                <th scope="col">Hasta Soyadı</th>
+                <th scope="col">Rapor Ekle</th>
+                <th scope="col">Raporları Görüntüle</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for randevu in randevular %}
+            <tr>
+                <td>{{ randevu.0 }}</td>
+                <td>{{ randevu.1 }}</td>
+                <td>{{ randevu.3 }}</td>
+                <td>{{ randevu.4 }}</td>
+                <td>
+                    <a href="{% url 'doktor_rapor_ekle' randevu.2 %}" class="btn btn-primary btn-sm">Rapor Ekle</a>
+                </td>
+                <td>
+                    <a href="{% url 'doktor_rapor_goruntule' randevu.2 %}" class="btn btn-secondary btn-sm">Raporları Görüntüle</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

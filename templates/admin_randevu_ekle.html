@@ -1,0 +1,26 @@
+{% extends 'admin_anasayfa.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Randevu Ekle</h2>
+    <form action="{% url 'admin_randevu_ekle' %}" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="randevuTarihi" class="form-label">Randevu Tarihi</label>
+            <input type="date" class="form-control" id="randevuTarihi" name="randevuTarihi" required>
+        </div>
+        <div class="mb-3">
+            <label for="randevuSaati" class="form-label">Randevu Saati</label>
+            <input type="time" class="form-control" id="randevuSaati" name="randevuSaati" required>
+        </div>
+        <div class="mb-3">
+            <label for="hastaID" class="form-label">Hasta ID</label>
+            <input type="text" class="form-control" id="hastaID" name="hastaID" required>
+        </div>
+        <div class="mb-3">
+            <label for="doktorID" class="form-label">Doktor ID</label>
+            <input type="text" class="form-control" id="doktorID" name="doktorID" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Randevu Ekle</button>
+    </form>
+</div>
+{% endblock %}

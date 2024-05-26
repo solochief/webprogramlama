@@ -1,0 +1,28 @@
+{% extends 'anasayfa.html' %}
+{% load static %} 
+{% block title %} MEDICOY - İletişim {% endblock title %}
+{% block content %}
+
+
+<body>
+
+  <br><br>
+
+  <center>
+    <h3 class='alert alert-success'>Görüşlerinizi Bizimle Paylaşın !</h3>
+
+    <form method="POST">
+      <!-- Very Important csrf Token -->
+      {% csrf_token %}
+      <div class="form-group">
+        <p>
+        <h3>{{ form.as_p }}</h3>
+        </p>
+        <br>
+        <input type="submit" value="Gönder" class='btn btn-primary btn-lg'>
+      </div>
+    </form>
+  </center>
+</body>
+
+{% endblock content %}

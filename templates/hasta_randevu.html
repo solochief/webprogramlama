@@ -1,0 +1,179 @@
+{% extends 'hasta_anasayfa.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Randevu Ekleme Bölümü -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center">Randevu Al</h2>
+                    <form id="randevuForm">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="hastane">Hastane</label>
+                            <select class="form-control" id="hastane" name="hastane" required>
+                                <option value="" disabled selected>Hastane Seçin</option>
+                                {% for hastane in hastaneler %}
+                                <option value="{{ hastane }}">{{ hastane }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="uzmanlik_alani">Uzmanlık Alanı</label>
+                            <select class="form-control" id="uzmanlik_alani" name="uzmanlik_alani" required>
+                                <option value="" disabled selected>Uzmanlık Alanı Seçin</option>
+                                {% for alan in uzmanlik_alanlari %}
+                                <option value="{{ alan }}">{{ alan }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="doktor">Doktor</label>
+                            <select class="form-control" id="doktor" name="doktor" required>
+                                <option value="" disabled selected>Doktor Seçin</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tarih">Tarih</label>
+                            <input type="date" class="form-control" id="tarih" name="tarih" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="saat">Saat</label>
+                            <select class="form-control" id="saat" name="saat" required>
+                                <option value="" disabled selected>Saat Seçin</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Randevu Al</button>
+                    </form>
+                    <div id="successMessage" class="alert alert-success mt-3" style="display: none;"></div>
+                    <div id="errorMessage" class="alert alert-danger mt-3" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Randevu Görüntüleme Bölümü -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center">Mevcut Randevularım</h2>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Tarih</th>
+                                <th>Saat</th>
+                                <th>Doktor</th>
+                                <th>Hastane</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for randevu in randevular %}
+                            <tr>
+                                <td>{{ randevu.0 }}</td>
+                                <td>{{ randevu.1 }}</td>
+                                <td>{{ randevu.2 }} {{ randevu.3 }}</td>
+                                <td>{{ randevu.4 }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center">Henüz bir randevunuz yok.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("randevuForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        var form = document.getElementById("randevuForm");
+        var formData = new FormData(form);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "{% url 'hasta_randevu_view' %}");
+        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                var response = JSON.parse(xhr.responseText);
+                if (xhr.status === 200 && response.success) {
+                    document.getElementById("successMessage").style.display = "block";
+                    document.getElementById("successMessage").innerHTML = "Randevu başarıyla alındı. Randevu Tarihi: " + response.tarih + ", Saat: " + response.saat;
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 2000);
+                } else {
+                    document.getElementById("errorMessage").style.display = "block";
+                    document.getElementById("errorMessage").innerHTML = response.message;
+                }
+            }
+        };
+        xhr.send(formData);
+    });
+
+    document.getElementById("uzmanlik_alani").addEventListener("change", function () {
+        var hastane = document.getElementById("hastane").value;
+        var uzmanlik_alani = document.getElementById("uzmanlik_alani").value;
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "{% url 'get_doktorlar' %}?hastane=" + hastane + "&uzmanlik_alani=" + uzmanlik_alani);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var doktorlar= JSON.parse(xhr.responseText);
+                var doktorSelect = document.getElementById("doktor");
+                doktorSelect.innerHTML = '<option value="" disabled selected>Doktor Seçin</option>';
+                for (var i = 0; i < doktorlar.length; i++) {
+                    var option = document.createElement("option");
+                    option.text = doktorlar[i].ad + " " + doktorlar[i].soyad;
+                    option.value = doktorlar[i].id;
+                    doktorSelect.appendChild(option);
+                }
+            }
+        };
+        xhr.send();
+    });
+
+    document.getElementById("doktor").addEventListener("change", function () {
+        var doktor = document.getElementById("doktor").value;
+        var tarih = document.getElementById("tarih").value;
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "{% url 'get_randevu_saatleri' %}?doktor=" + doktor + "&tarih=" + tarih);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var saatler = JSON.parse(xhr.responseText);
+                var saatSelect = document.getElementById("saat");
+                saatSelect.innerHTML = '<option value="" disabled selected>Saat Seçin</option>';
+                for (var i = 0; i < saatler.length; i++) {
+                    var option = document.createElement("option");
+                    option.text = saatler[i];
+                    option.value = saatler[i];
+                    saatSelect.appendChild(option);
+                }
+            }
+        };
+        xhr.send();
+    });
+
+    document.getElementById("tarih").addEventListener("change", function () {
+        var doktor = document.getElementById("doktor").value;
+        var tarih = document.getElementById("tarih").value;
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "{% url 'get_randevu_saatleri' %}?doktor=" + doktor + "&tarih=" + tarih);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var saatler = JSON.parse(xhr.responseText);
+                var saatSelect = document.getElementById("saat");
+                saatSelect.innerHTML = '<option value="" disabled selected>Saat Seçin</option>';
+                for (var i = 0; i < saatler.length; i++) {
+                    var option = document.createElement("option");
+                    option.text = saatler[i];
+                    option.value = saatler[i];
+                    saatSelect.appendChild(option);
+                }
+            }
+        };
+        xhr.send();
+    });
+</script>
+{% endblock content %}

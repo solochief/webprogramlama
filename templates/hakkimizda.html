@@ -1,0 +1,39 @@
+{% extends 'anasayfa.html' %}
+{% load static %} 
+{% block title %} MEDICOY - Hakkımızda {% endblock title %}
+{% block content %}
+
+<head>
+  <style media="screen">
+    .jumbotron {
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+
+    .jumbotron h1 {
+      text-align: center;
+    }
+
+    .alert {
+      margin: 0px;
+    }
+  </style>
+  <title>Ömer, Berat</title>
+</head>
+
+<body>
+  <center>
+    <h3 class='alert alert-success' style="margin-bottom:0px;">Biz Kimiz ?</h3>
+  </center>
+  <div class="jumbotron" style="margin-bottom: 0px;margin-top: 0px;">
+    <h1 class="display-4">Merhaba</h1>
+    <p class="lead">Biz güzel bir dünya için, güzel işler başarmaya çalışan iki arkadaşız .</p>
+    <hr class="my-4">
+    <p>Sitemizi Keşfedin.</p>
+    <p class="lead">
+      <a class="btn btn-primary btn-lg" href="/" role="button">ANA SAYFA</a>
+    </p>
+  </div>
+</body>
+
+{% endblock content %}

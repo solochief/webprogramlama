@@ -1,0 +1,117 @@
+{% extends 'hasta_anasayfa.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="container mt-5">
+            <div class="card">
+                <div class="card-body">
+                    <form action="{% url 'hasta_rapor_ekle' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="raporTarihi" class="form-label">Rapor Tarihi</label>
+                            <input type="date" class="form-control" id="raporTarihi" name="raporTarihi" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="raporIcerigi" class="form-label">Rapor İçeriği</label>
+                            <input type="text" class="form-control" id="raporIcerigi" name="raporIcerigi" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="doktorID" class="form-label">Doktor ID</label>
+                            <input type="number" class="form-control" id="doktorID" name="doktorID" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="resim" class="form-label">Resim Ekle</label>
+                            <input type="file" class="form-control" id="resim" name="resim">
+                        </div>
+                        <div class="mb-3">
+                            <label for="jsonFile" class="form-label">JSON Dosyası Yükle</label>
+                            <input type="file" class="form-control" id="jsonFile" name="jsonFile" accept=".json">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="container mt-5">
+            <div class="card">
+                <div class="card-body" style="max-height: 640px; overflow-y: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Rapor Tarihi</th>
+                                <th scope="col">Rapor İçeriği</th>
+                                <th scope="col">Resim URL</th>
+                                <th scope="col">Detay</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for rapor in raporlar %}
+                                <tr>
+                                    <td>{{ rapor.RaporTarihi }}</td>
+                                    <td>{{ rapor.RaporIcerigi }}</td>
+                                    <td>
+                                        {% if rapor.ResimURL %}
+                                            {{ rapor.ResimURL }}
+                                        {% else %}
+                                            Yok
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if rapor.JsonRapor %}
+                                            <button class="btn btn-primary" onclick="loadRaporJson({{ rapor.RaporID }})">Detay</button>
+                                        {% else %}
+                                            Yok
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="raporDetayModal" tabindex="-1" aria-labelledby="raporDetayModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="raporDetayModalLabel">Rapor Detayı</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <pre id="raporDetay"></pre>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function loadRaporJson(raporId) {
+        fetch(`/get_rapor_json/${raporId}/`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.json) {
+                    var raporDetay = JSON.stringify(JSON.parse(data.json), null, 2);
+                    document.getElementById("raporDetay").textContent = raporDetay;
+                    var modal = new bootstrap.Modal(document.getElementById('raporDetayModal'), {
+                        keyboard: false
+                    });
+                    modal.show();
+                } else {
+                    alert('Rapor bulunamadı');
+                }
+            })
+            .catch(error => console.error('Error fetching rapor JSON:', error));
+    }
+</script>
+{% endblock content %}

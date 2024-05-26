@@ -1,0 +1,107 @@
+{% extends 'admin_anasayfa.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+  <div class="col-md-4">
+    <div class="container mt-5">
+          <div class="card">
+              <div class="card-body">
+                  <h2>Hasta Ekle</h2>
+                  <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <label for="ad">Ad</label>
+                      <input type="text" class="form-control" id="ad" name="ad" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="soyad">Soyad</label>
+                      <input type="text" class="form-control" id="soyad" name="soyad" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="dogum_tarihi">Doğum Tarihi</label>
+                      <input type="date" class="form-control" id="dogum_tarihi" name="dogum_tarihi" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="cinsiyet">Cinsiyet</label>
+                      <select class="form-control" id="cinsiyet" name="cinsiyet" required>
+                        <option value="erkek">Erkek</option>
+                        <option value="kadın">Kadın</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="telefon">Telefon</label>
+                      <input type="tel" class="form-control" id="telefon" name="telefon" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="adres">Adres</label>
+                      <textarea class="form-control" id="adres" name="adres" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label for="hasta_username">Hasta Kullanıcı Adı</label>
+                      <input type="text" class="form-control" id="hasta_username" name="hasta_username" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="hasta_password">Hasta Şifre</label>
+                      <input type="password" class="form-control" id="hasta_password" name="hasta_password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                  </form>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="col-md-8">
+    <div class="container mt-5">
+          <div class="card">
+            <div class="card-body" style="max-height: 860px; overflow-y: auto;">
+                <h2>Hastalar</h2>
+                  <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Hasta ID</th>
+                            <th scope="col">Ad</th>
+                            <th scope="col">Soyad</th>
+                            <th scope="col">Doğum Tarihi</th>
+                            <th scope="col">Cinsiyet</th>
+                            <th scope="col">Telefon</th>
+                            <th scope="col">Adres</th>
+                            <th scope="col">Hasta Kullanıcı Adı</th>
+                            <th scope="col">Hasta Şifre</th>
+                            <th scope="col">İşlem</th> <!-- Yeni sütun eklendi -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for hasta in hastalar %}
+                        <tr>
+                            <td>{{ hasta.0 }}</td>
+                            <td>{{ hasta.1 }}</td>
+                            <td>{{ hasta.2 }}</td>
+                            <td>{{ hasta.3 }}</td>
+                            <td>{{ hasta.4 }}</td>
+                            <td>{{ hasta.5 }}</td>
+                            <td>{{ hasta.6 }}</td>
+                            <td>{{ hasta.7 }}</td>
+                            <td>{{ hasta.8 }}</td>
+                            <td>
+                                <form action="{% url 'hasta_sil' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="hasta_id" value="{{ hasta.0 }}">
+                                    <button type="submit" class="btn btn-danger">Sil</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

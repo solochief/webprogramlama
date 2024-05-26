@@ -1,0 +1,23 @@
+{% extends 'admin_anasayfa.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Randevu Güncelle</h2>
+    <form method="post" action="{% url 'admin_randevu_guncelle_post' appointment_info.0 %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="RandevuID">Randevu ID:</label>
+            <input type="text" class="form-control" id="RandevuID" name="RandevuID" value="{{ appointment_info.0 }}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="RandevuTarihi">Randevu Tarihi:</label>
+            <input type="date" class="form-control" id="RandevuTarihi" name="RandevuTarihi" value="{{ appointment_info.1 }}">
+        </div>
+        <div class="form-group">
+            <label for="RandevuSaati">Randevu Saati:</label>
+            <input type="time" class="form-control" id="RandevuSaati" name="RandevuSaati" value="{{ appointment_info.2 }}">
+        </div>
+        <!-- Diğer randevu bilgileri buraya eklenebilir -->
+        <button type="submit" class="btn btn-primary">Güncelle</button>
+    </form>
+</div>
+{% endblock %}

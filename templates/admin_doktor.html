@@ -1,0 +1,96 @@
+{% extends 'admin_anasayfa.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+  <div class="col-md-4">
+  <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h2>Doktor Ekle</h2>
+                <form method="post">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label for="ad">Ad</label>
+                    <input type="text" class="form-control" id="ad" name="ad">
+                  </div>
+                  <div class="form-group">
+                    <label for="soyad">Soyad</label>
+                    <input type="text" class="form-control" id="soyad" name="soyad">
+                  </div>
+                  <div class="form-group">
+                    <label for="uzmanlik">Uzmanlık Alanı</label>
+                    <select class="form-control" id="uzmanlik" name="uzmanlik">
+                      <option value="Kardiyoloji">Kardiyoloji</option>
+                      <option value="Dermatoloji">Dermatoloji</option>
+                      <option value="Nöroloji">Nöroloji</option>
+                      <option value="Pediatri">Pediatri</option>
+                      <option value="Ortopedi">Ortopedi</option>
+                      <option value="Nefroloji">Nefroloji</option>
+                      <option value="Üroloji">Üroloji</option>
+                      <option value="Kulak Burun Boğaz">Kulak Burun Boğaz</option>
+                      <option value="Psikiyatri">Psikiyatri</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="calistigi_hastane">Çalıştığı Hastane</label>
+                    <input type="text" class="form-control" id="calistigi_hastane" name="calistigi_hastane">
+                  </div>
+                  <div class="form-group">
+                    <label for="doktorun">Doktor Kullanıcı Adı</label>
+                    <input type="text" class="form-control" id="doktorun" name="doktorun">
+                  </div>
+                  <div class="form-group">
+                    <label for="doktorsifre">Doktor Şifresi</label>
+                    <input type="password" class="form-control" id="doktorsifre" name="doktorsifre">
+                  </div>
+                  <button type="submit" class="btn btn-primary">Ekle</button>
+                </form>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body" style="max-height: 640px; overflow-y: auto;">
+                <h2>Doktorlar</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Doktor ID</th>
+                                <th scope="col">Ad</th>
+                                <th scope="col">Soyad</th>
+                                <th scope="col">Uzmanlik Alani</th>
+                                <th scope="col">Calistigi Hastane</th>
+                                <th scope="col">Doktor Kullaniciadi</th>
+                                <th scope="col">Doktor Sifre</th>
+                                <th scope="col">İşlem</th> <!-- Yeni sütun eklendi -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for doktor in doktorlar %}
+                            <tr>
+                                <td>{{ doktor.0 }}</td>
+                                <td>{{ doktor.1 }}</td>
+                                <td>{{ doktor.2 }}</td>
+                                <td>{{ doktor.3 }}</td>
+                                <td>{{ doktor.4 }}</td>
+                                <td>{{ doktor.5 }}</td>
+                                <td>{{ doktor.6 }}</td>
+                                <td>
+                                    <form action="{% url 'doktor_sil' %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="doktor_id" value="{{ doktor.0 }}">
+                                        <button type="submit" class="btn btn-danger">Sil</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

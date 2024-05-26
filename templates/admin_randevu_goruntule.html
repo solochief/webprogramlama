@@ -1,0 +1,38 @@
+{% extends 'admin_anasayfa.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Randevular</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Randevu ID</th>
+                <th scope="col">Randevu Tarihi</th>
+                <th scope="col">Randevu Saati</th>
+                <th scope="col">Hasta</th>
+                <th scope="col">Doktor</th>
+                <th scope="col">Güncelle</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment in appointments %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ appointment.0 }}</td>
+                <td>{{ appointment.1 }}</td>
+                <td>{{ appointment.2 }}</td>
+                <td>{{ appointment.3 }} {{ appointment.4 }}</td>
+                <td>{{ appointment.5 }} {{ appointment.6 }}</td>
+                <td>
+                    <a href="/admin-randevu-guncelle/{{ appointment.0 }}/" class="btn btn-primary btn-sm">Güncelle</a>
+                    <form action="{% url 'admin_randevu_sil' appointment.0 %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

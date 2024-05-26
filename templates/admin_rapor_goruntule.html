@@ -1,0 +1,43 @@
+{% extends 'admin_anasayfa.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Raporlar</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Rapor ID</th>
+                <th scope="col">Rapor Tarihi</th>
+                <th scope="col">Rapor İçeriği</th>
+                <th scope="col">Hasta ID</th>
+                <th scope="col">Doktor ID</th>
+                <th scope="col">Resim URL</th>
+                <th scope="col">Json Rapor</th>
+                <th scope="col">İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rapor in raporlar %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ rapor.0 }}</td>
+                <td>{{ rapor.1 }}</td>
+                <td>{{ rapor.2 }}</td>
+                <td>{{ rapor.3 }}</td>
+                <td>{{ rapor.4 }}</td>
+                <td>{{ rapor.5 }}</td>
+                <td>{{ rapor.6 }}</td>
+                <td>
+                    <a href="{% url 'admin_rapor_guncelle' rapor.0 %}" class="btn btn-primary btn-sm">Güncelle</a>
+                    <form action="{% url 'admin_rapor_sil' rapor.0 %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'doktor_anasayfa.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Rapor Ekle</h2>
+    <form action="{% url 'doktor_rapor_ekle' hastaID %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="raporTarihi" class="form-label">Rapor Tarihi</label>
+            <input type="date" class="form-control" id="raporTarihi" name="raporTarihi" required>
+        </div>
+        <div class="mb-3">
+            <label for="raporIcerigi" class="form-label">Rapor İçeriği</label>
+            <input type="text" class="form-control" id="raporIcerigi" name="raporIcerigi" required>
+        </div>
+        <div class="mb-3">
+            <label for="resim" class="form-label">Resim Ekle</label>
+            <input type="file" class="form-control" id="resim" name="resim">
+        </div>
+        <div class="mb-3">
+            <label for="jsonFile" class="form-label">JSON Dosyası Yükle</label>
+            <input type="file" class="form-control" id="jsonFile" name="jsonFile" accept=".json">
+        </div>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </form>
+</div>
+{% endblock %}
