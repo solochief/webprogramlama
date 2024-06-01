@@ -90,10 +90,13 @@ DATABASES = {
         'NAME': 'mydb',
         'USER': 'root',
         'PASSWORD': '1234',
-        'HOST': 'localhost',  # or the hostname where your MySQL server is running
-        'PORT': '3306',      # or the port on which your MySQL server is listening
+        'HOST': 'db',  # Docker Compose'da veritabanı servisinin adını kullanın
+        'PORT': '3306',
     }
 }
+
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
